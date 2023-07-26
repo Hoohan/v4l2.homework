@@ -31,3 +31,11 @@ cmake --build build
 ```bash
 ./bin/grabber
 ```
+
+## 其他
+
+本项目开发时使用clangd作为LSP，请使用如下命令生成clangd可直接读取的构建配置，否则clangd语法分析将出错。
+
+```
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+```
