@@ -1,7 +1,7 @@
 #include <gtkmm.h>
 
 class MyWindow : public Gtk::Window {
-   public:
+public:
     MyWindow();
 };
 
