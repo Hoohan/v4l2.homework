@@ -12,11 +12,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 
+# export compile commands to setup clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+# using PkgConfig to find gtkmm-4.0
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-4.0)
 
+# public include directory
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
