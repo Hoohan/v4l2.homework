@@ -5,23 +5,29 @@
 ## 环境需求(todo)
 
 - Ubuntu / Arch Linux
-- GCC/CMake
+- GCC / CMake
 - libv4l2
 - USB Camera
 
 ## 使用说明
 
-请确保运行环境已安装v4l-utils/gtk4
+请确保运行环境已安装v4l-utils/gtkmm-4.0
+
+Arch Linux执行如下命令：
+
+```bash
+sudo pacman -S gtkmm-4.0 libv4l
+```
 
 配置与构建：
 
-```
+```bash
 cmake -S . -B build
 cmake --build build
 ```
 
 运行：
 
-```
+```bash
 ./bin/grabber
 ```
