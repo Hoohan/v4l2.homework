@@ -4,9 +4,9 @@
 // #include <libv4l2.h>
 #include <linux/v4l2-controls.h>
 #include <linux/videodev2.h>
+#include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <sys/select.h>
-#include <sys/ioctl.h>
 
 #include <cstddef>
 #include <cstdio>
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
         buffers[bufferNum].length = buf.length;
         buffers[bufferNum].start =
             mmap(NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
-                      buf.m.offset);
+                 buf.m.offset);
 
         if (buffers[bufferNum].start == MAP_FAILED) {
             perror("v4l2_mmap");
@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
                (void*)buffers[bufferNum].start, buffers[bufferNum].length);
     }
 
-    // exchange buffer with the driver
+    // queue buffer with the driver
     for (int i = 0; i < bufferNum; ++i) {
         struct v4l2_buffer buf;
         CLEAR(buf);
