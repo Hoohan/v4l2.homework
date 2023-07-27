@@ -52,5 +52,8 @@ _deps
 bin/
 lib/
 
+# data files
+data/
+
 # nvim or clangd index cache
 .cache/
