@@ -3,12 +3,12 @@
  */
 
 #include <ImageWindow.hpp>
-#include <iostream>
+// #include <iostream>
 
 #include "gtkmm/application.h"
 
-using std::cout;
-using std::endl;
+// using std::cout;
+// using std::endl;
 
 using namespace hmwk;
 
