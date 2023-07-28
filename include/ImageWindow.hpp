@@ -15,18 +15,17 @@ public:
     virtual ~ImageArea();
 
 protected:
-    void on_draw(const Cairo::RefPtr<Cairo::Context>& cr, int width,
-                 int height);
+    bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
     Glib::RefPtr<Gdk::Pixbuf> image_;
 };
 
-class ImageWindow : public Gtk::Window{
-public:
-    ImageWindow();
-    virtual ~ImageWindow();
-protected:
-    ImageArea area_;
-};
+// class ImageWindow : public Gtk::Window{
+// public:
+//     ImageWindow();
+//     virtual ~ImageWindow();
+// protected:
+//     ImageArea area_;
+// };
 
 } // namespace hmwk
 

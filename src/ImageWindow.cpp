@@ -13,13 +13,13 @@
 void yuyv2rgb(unsigned char* yuyvBuf, unsigned char* rgbBuf, unsigned int width,
               unsigned int height);
 
-hmwk::ImageWindow::ImageWindow() {
-    set_title("Image Window");
-    set_default_size(640, 480);
-    set_child(area_);
-}
+// hmwk::ImageWindow::ImageWindow() {
+//     set_title("Image Window");
+//     set_default_size(640, 480);
+//     set_child(area_);
+// }
 
-hmwk::ImageWindow::~ImageWindow() {}
+// hmwk::ImageWindow::~ImageWindow() {}
 
 hmwk::ImageArea::ImageArea() {
     std::string name = "/dev/video0";
@@ -41,7 +41,8 @@ hmwk::ImageArea::ImageArea() {
     try {
         // image_ = Gdk::Pixbuf::create_from_file("data/test.png");
         image_ = Gdk::Pixbuf::create_from_data(
-            rgbBuf, Gdk::Colorspace::RGB, false, 8, width, height, 640 * 3);
+            rgbBuf, Gdk::Colorspace::COLORSPACE_RGB, false, 8, width, height,
+            640 * 3);
     } catch (const Gio::ResourceError& ex) {
         std::cerr << "ResourceError: " << ex.what() << std::endl;
     } catch (const Gdk::PixbufError& ex) {
@@ -51,23 +52,34 @@ hmwk::ImageArea::ImageArea() {
     // free(rgbBuf);
 
     if (image_) {
-        set_content_width(image_->get_width() / 2);
-        set_content_height(image_->get_height() / 2);
+        set_size_request(image_->get_width() / 2, image_->get_height() / 2);
     }
 
-    set_draw_func(sigc::mem_fun(*this, &ImageArea::on_draw));
+    // set_draw_func(sigc::mem_fun(*this, &ImageArea::on_draw));
 }
 
 hmwk::ImageArea::~ImageArea() {}
 
-void hmwk::ImageArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr,
-                              int width, int height) {
+bool hmwk::ImageArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     if (!image_) {
-        return;
+        return false;
     }
-    Gdk::Cairo::set_source_pixbuf(cr, image_, (width - image_->get_width()) / 2,
+    // Gdk::Cairo::set_source_pixbuf(cr, image_, (width - image_->get_width()) /
+    // 2,
+    //                               (height - image_->get_height()) / 2);
+    // cr->paint();
+    Gtk::Allocation allocation = get_allocation();
+    const int width = allocation.get_width();
+    const int height = allocation.get_height();
+
+    // Draw the image in the middle of the drawing area, or (if the image is
+    // larger than the drawing area) draw the middle part of the image.
+    Gdk::Cairo::set_source_pixbuf(cr, image_,
+                                  (width - image_->get_width()) / 2,
                                   (height - image_->get_height()) / 2);
     cr->paint();
+
+    return true;
 }
 
 void yuyv2rgb(unsigned char* yuyvBuf, unsigned char* rgbBuf, int unsigned width,
