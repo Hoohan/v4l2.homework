@@ -1,4 +1,4 @@
-# add_subdirectory(gtkmm)
+add_subdirectory(gtkmm)
 
 add_executable(test-v4l2 test-v4l2.cpp)
 add_executable(test-Camera 
