@@ -151,6 +151,9 @@ FrameBuffer* Camera::dqueueBuf() {
         tv.tv_usec = 0;
 
         ret = select(fd_ + 1, &fds, NULL, NULL, &tv);
+        if (ret == 0 && errno == 0) {
+            printf("ERROR: Select timeout. Please check your camera.");
+        }
     } while (ret == -1 && (errno == EINTR));
     // dq buffer
     struct v4l2_buffer buf;
