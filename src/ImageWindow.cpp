@@ -2,7 +2,6 @@
 
 #include <Camera.hpp>
 #include <ImageWindow.hpp>
-#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -62,4 +61,3 @@ bool ImageArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 }
 
 }  // namespace hmwk
-

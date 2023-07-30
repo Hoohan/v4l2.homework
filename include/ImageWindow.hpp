@@ -2,12 +2,13 @@
 #define __IMAGE_WINDOW_HPP__
 
 #include <gtkmm.h>
-#include "gdkmm/pixbuf.h"
-#include "glibmm/refptr.h"
 
 #include <string>
 
-namespace hmwk{
+#include "gdkmm/pixbuf.h"
+#include "glibmm/refptr.h"
+
+namespace hmwk {
 
 class ImageArea : public Gtk::DrawingArea {
 public:
@@ -23,16 +24,16 @@ private:
     unsigned char* rgbBuf_;
 };
 
-class ImageWindow : public Gtk::Window{
+class ImageWindow : public Gtk::Window {
 public:
     ImageWindow(unsigned char* rgbBuf, unsigned int width, unsigned int height);
     virtual ~ImageWindow();
-    bool set_image();
+
 protected:
     ImageArea area_;
     unsigned int width_, height_;
 };
 
-} // namespace hmwk
+}  // namespace hmwk
 
 #endif
