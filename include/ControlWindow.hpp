@@ -3,13 +3,15 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+
 #include <string>
+
 #include "Camera.hpp"
 #include "ImageWindow.hpp"
 
 namespace hmwk {
 
-class ControlWindow : public Gtk::Window{
+class ControlWindow : public Gtk::Window {
 public:
     ControlWindow(std::string devName);
     virtual ~ControlWindow();
@@ -20,10 +22,10 @@ protected:
 
 private:
     Camera camera_;
-    ImageWindow *imageWindow_;
+    ImageWindow* imageWindow_;
     // Gtk::Window *win_;
 };
 
-} // namespace hmwk
+}  // namespace hmwk
 
 #endif

@@ -1,18 +1,18 @@
 #ifndef __CAMERA_SCANNER_HPP__
 #define __CAMERA_SCANNER_HPP__
 
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace hmwk {
 
-struct DeviceInfo{
+struct DeviceInfo {
     std::string deviceDescription;
     std::string busInfo;
     std::vector<std::string> devicePaths;
 };
 
-class CameraScanner{
+class CameraScanner {
 public:
     CameraScanner();
     ~CameraScanner();
@@ -28,7 +28,6 @@ private:
     std::vector<std::string> files_;
 };
 
-
-} // namespace hmwk 
+}  // namespace hmwk
 
 #endif

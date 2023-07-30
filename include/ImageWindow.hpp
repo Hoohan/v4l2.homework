@@ -12,7 +12,6 @@ namespace hmwk {
 
 class ImageArea : public Gtk::DrawingArea {
 public:
-    // ImageArea(unsigned char* rgbBuf, unsigned int width, unsigned int height);
     ImageArea(void* rawBuf, unsigned int width, unsigned int height);
     virtual ~ImageArea();
 
@@ -28,7 +27,6 @@ private:
 
 class ImageWindow : public Gtk::Window {
 public:
-    // ImageWindow(unsigned char* rgbBuf, unsigned int width, unsigned int height);
     ImageWindow(void* rawBuf, unsigned int width, unsigned int height);
     virtual ~ImageWindow();
 
