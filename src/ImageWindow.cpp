@@ -51,10 +51,12 @@ bool ImageArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     const int width = allocation.get_width();
     const int height = allocation.get_height();
 
+    double pixbuf_x = (width - image_->get_width()) / 2.0;
+    double pixbuf_y = (height - image_->get_height()) / 2.0;
+
     // Draw the image in the middle of the drawing area, or (if the image is
     // larger than the drawing area) draw the middle part of the image.
-    Gdk::Cairo::set_source_pixbuf(cr, image_, (width - image_->get_width()) / 2,
-                                  (height - image_->get_height()) / 2);
+    Gdk::Cairo::set_source_pixbuf(cr, image_, pixbuf_x, pixbuf_y);
     cr->paint();
 
     return true;
