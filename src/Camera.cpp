@@ -143,6 +143,7 @@ FrameBuffer* Camera::dqueueBuf() {
     fd_set fds;
     struct timeval tv;
     int ret;
+    bool is_timeout;
     do {
         FD_ZERO(&fds);
         FD_SET(fd_, &fds);
@@ -151,10 +152,11 @@ FrameBuffer* Camera::dqueueBuf() {
         tv.tv_usec = 0;
 
         ret = select(fd_ + 1, &fds, NULL, NULL, &tv);
-        if (ret == 0 && errno == 0) {
-            printf("ERROR: Select timeout. Please check your camera.");
+        if (ret == 0 && errno == EAGAIN) {
+            is_timeout = true;
+            printf("ERROR: Select timeout. Please check your camera.\n");
         }
-    } while (ret == -1 && (errno == EINTR));
+    } while (is_timeout || (ret == -1 && (errno == EINTR)));
     // dq buffer
     struct v4l2_buffer buf;
     CLEAR(buf);
