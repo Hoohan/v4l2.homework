@@ -19,6 +19,8 @@
 - gtkmm-3.0(libgtkmm-3.0-dev)
 - USB Camera
 
+其中，USB摄像头需支持640*480分辨率下的YUV 4:2:2 (V4L2_PIX_FMT_YUYV)格式输出。
+
 ### 编译准备
 
 安装基础软件包：
@@ -45,13 +47,22 @@ cmake -S . -B build && cmake --build build
 
 ## 常见问题
 
-1. 摄像头无法获取数据
+1. 多次抓取存在“延迟”？
 
-    摄像头正常链接但无法获取数据，一般出现在虚拟机链接宿主机摄像头的情况下。且此种情况尝试使用GNOME Cheese (a.k.a. Ubuntu “茄子”) 打开摄像头也会失败。请在虚拟机设置中调整USB控制器版本。若为2.0，请调整为3.0；若为3.0，请调整为2.0。
+    经多次试验，v4l2视频采集队列“写满即停”。因此该项目将队列缓冲区个数设置为2。如遇延迟，请尝试多次抓取。
 
-2. 短时间连续多次运行程序抓取影像，大多工作正常，但偶见select timeout
+2. 摄像头无法获取数据
 
-    请优先按照问题1的方式进行调整，若无效，则问题可能与摄像头的硬件带宽有关，请更换摄像头。
+    摄像头正常链接但无法获取数据，一般出现在虚拟机链接宿主机摄像头的情况下。且此种情况尝试使用GNOME Cheese (a.k.a. Ubuntu “茄子”) 打开摄像头也会失败。请在虚拟机设置中调整USB控制器兼容性。若为2.0，请调整为3.0；若为3.0，请调整为2.0。
+
+3. 短时间连续多次运行程序抓取影像，部分抓取正常，部分抓取出现select timeout
+
+    请优先按照问题2的方式进行调整，若无效，则问题可能与摄像头的硬件带宽有关。反复多次开关设备可能会造成此问题，如果需要连续多次抓取影像，请使用Control Window下的抓取按钮。
+    
+    以下两个链接可能会有帮助：
+
+    1. [Error with USB webcam - v4l2: oops: select timeout](https://forums.raspberrypi.com/viewtopic.php?t=35184)
+    2. [OpenCV v4l2 select timeout error SOLVED! High FPS!](https://forums.raspberrypi.com/viewtopic.php?t=35689)
 
 ## 参考文档
 
@@ -59,3 +70,4 @@ cmake -S . -B build && cmake --build build
 2. [gtkmm - C++ Interfaces for GTK and GNOME](https://www.gtkmm.org/en/index.html)
 3. [Programming with gtkmm 3](https://developer-old.gnome.org/gtkmm-tutorial/3.24/index.html.en)
 4. [Using CMake to build gtkmm programs](https://wiki.gnome.org/Projects/gtkmm/UsingCMake)
+5. [Correct YUV422 to RGB conversion](https://stackoverflow.com/questions/8042563/correct-yuv422-to-rgb-conversion)
