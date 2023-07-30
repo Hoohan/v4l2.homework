@@ -164,6 +164,11 @@ FrameBuffer* Camera::dqueueBuf() {
     return buffers_ + buf.index;
 }
 
+FrameBuffer* Camera::dqueueBufWithFlush(){
+    flushAllBuf();
+    return dqueueBuf();
+}
+
 void Camera::queueBuf(FrameBuffer* buffer) {
     struct v4l2_buffer buf;
     CLEAR(buf);
@@ -174,6 +179,15 @@ void Camera::queueBuf(FrameBuffer* buffer) {
 }
 
 void Camera::getCapability() { ioctl_safe(fd_, VIDIOC_QUERYCAP, &cap_); }
+
+void Camera::flushAllBuf(){
+    FrameBuffer* buf;
+    for(int i = 0; i < bufferNum_; ++i){
+        buf = dqueueBuf();
+        queueBuf(buf);
+    }
+    return;
+}
 
 void Camera::printCapability() const {
     printf("driver:\t\t%s\n", cap_.driver);

@@ -22,6 +22,7 @@ public:
 
     void startStream();
     FrameBuffer* dqueueBuf();
+    FrameBuffer* dqueueBufWithFlush();
     void queueBuf(FrameBuffer* buffer);
     void stopStream();
 
@@ -45,6 +46,7 @@ private:
     bool mmapBuf();
     void queueAllBuf();
     bool munmapBuf();
+    void flushAllBuf();
 };
 
 }  // namespace hmwk

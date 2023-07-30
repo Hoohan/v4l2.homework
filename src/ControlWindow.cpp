@@ -31,7 +31,7 @@ ControlWindow::ControlWindow(std::string devName)
 ControlWindow::~ControlWindow() { camera_.startStream(); }
 
 void ControlWindow::on_button_clicked() {
-    FrameBuffer* buf = camera_.dqueueBuf();
+    FrameBuffer* buf = camera_.dqueueBufWithFlush();
     printf("buf.index: \t%u\n", buf->index);
     unsigned char* rgbBuf = static_cast<unsigned char*>(
         calloc(default_width * default_height * 3, sizeof(unsigned char)));
