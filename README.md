@@ -31,7 +31,7 @@ sudo apt install build-essential cmake libgtkmm-3.0-dev
 
 若使用`git clone`获取代码，则需安装git，此处不再赘述。
 
-### 构建与运行
+### 构建
 
 配置与构建，请在项目根目录下执行如下命令：
 
@@ -39,10 +39,45 @@ sudo apt install build-essential cmake libgtkmm-3.0-dev
 cmake -S . -B build && cmake --build build
 ```
 
-构建完毕的程序将生成在`bin/`目录下，使用以下命令运行，查看效果：
+### 使用方式
+
+构建完毕的程序将生成在`bin/`目录下。通过传递参数方式使用，使用方式有两种：
+
+#### 1 扫描设备
+
+使用`-s`参数，程序将会列出所有可用相机设备：
 
 ```bash
-./bin/grabber
+./bin/grabber -s
+```
+
+输出示例：
+
+```
+[XiaoMi USB 2.0 Webcam: XiaoMi U] at [usb-0000:00:14.0-7] is attached to:
+	/dev/video0
+	/dev/video1
+```
+
+#### 2 抓取特定设备影像
+
+使用`-d [device path]`参数，程序将弹出图像抓取窗口：
+
+```bash
+./bin/grabber -d [your-camera-path]
+```
+
+点击抓取影像按钮，即可在新窗口中查看抓取的影像。
+
+#### 注意事项
+
+1. `-s`与`-d [device path]`参数不可同时使用。若同时使用，`-s`将会覆盖`-d [device path]`。
+2. 无参数或者传入非法参数，将会显示用法，如下所示。
+
+```bash
+Usage:
+    -s Scan all cameras
+    -d [device path] Open camera and capture
 ```
 
 ## 常见问题
