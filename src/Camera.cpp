@@ -26,7 +26,7 @@ static void ioctl_safe(int fd, int request, void* arg) {
 }
 
 Camera::Camera(std::string devName, unsigned int width, unsigned int height)
-    : devName_(devName), bufferNum_(4) {
+    : devName_(devName), bufferNum_(2) {
     // open device
     fd_ = open(devName.c_str(), O_RDWR | O_NONBLOCK, 0);
     if (fd_ < 0) {
