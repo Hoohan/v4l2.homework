@@ -17,7 +17,7 @@ void printUsage() {
     printf(
         "Usage:\n \
         \t-s Scan all cameras\n \
-        \t-d [device path] open camera and capture\n");
+        \t-d [device path] Open camera and capture\n");
 }
 
 int main(int argc, char* argv[]) {
