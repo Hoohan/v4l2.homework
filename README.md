@@ -16,7 +16,7 @@
 
 - Ubuntu 20.04 LTS
 - GCC / CMake
-- gtkmm-3.0(libgtkmm-3.0-dev)
+- gtkmm-3.0 (libgtkmm-3.0-dev)
 - USB Camera
 
 其中，USB摄像头需支持640*480分辨率下的YUV 4:2:2 (V4L2_PIX_FMT_YUYV)格式输出。
@@ -36,8 +36,10 @@ sudo apt install build-essential cmake libgtkmm-3.0-dev
 配置与构建，请在项目根目录下执行如下命令：
 
 ```bash
-cmake -S . -B build && cmake --build build
+cmake -S . -B build && cmake --build build 
 ```
+
+注：配置时使用`-DCMAKE_BUILD_TYPE=Release`设置构建方式为Debug模式会同时编译test文件夹（开发过程中编写的测试代码），会导致编译时间增加。
 
 ### 使用方式
 
