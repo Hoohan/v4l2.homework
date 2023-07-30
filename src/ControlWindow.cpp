@@ -16,6 +16,7 @@ ControlWindow::ControlWindow(std::string devName)
     // window settings
     set_title("Capture Control: " + devName);
     set_border_width(20);
+    set_default_size(360, 60);
 
     // camera settings
     camera_.startStream();
