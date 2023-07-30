@@ -1,36 +1,58 @@
-/*
- * todo
- */
+#include <gtkmm/application.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #include <Camera.hpp>
+#include <CameraScanner.hpp>
+#include <ControlWindow.hpp>
 #include <FormatConversion.hpp>
 #include <ImageWindow.hpp>
-
-#include "ControlWindow.hpp"
-#include "gtkmm/application.h"
+#include <iostream>
+#include <string>
+#include <vector>
 
 using namespace hmwk;
 
-int main(int argc, char** argv) {
-    std::string name = "/dev/video0";
-    // unsigned int width = 640, height = 480;
-    // Camera c(name, width, height);
-    // c.printCapability();
-    // c.printFormat();
-    // c.startStream();
-    // // sleep(1);
-    // FrameBuffer* buf = c.dqueueBuf();
-    // printf("buf.index: \t%u\n", buf->index);
-    // unsigned char* rgbBuf = static_cast<unsigned char*>(
-    //     calloc(width * height * 3, sizeof(unsigned char)));
-    // yuyv2rgb(static_cast<unsigned char*>(buf->start), rgbBuf, width, height);
-    // c.queueBuf(buf);
-    // c.stopStream();
+void printUsage() {
+    printf(
+        "Usage:\n \
+        \t-s Scan all cameras\n \
+        \t-d [device path] open camera and capture\n");
+}
 
-    auto app = Gtk::Application::create(argc, argv, "cn.hoohan.v4l2.homework");
+int main(int argc, char* argv[]) {
+    int ret;
+    const char* optstring = "sd:";
+    bool is_scan = false;
+    bool is_capture = false;
+    std::string devName;
+    while ((ret = getopt(argc, argv, optstring)) != -1) {
+        switch (ret) {
+            case 's':
+                is_scan = true;
+                break;
+            case 'd':
+                is_capture = true;
+                devName = std::string(optarg);
+                break;
+            case '?':
+                printf("error opt: %c\n", optopt);
+                break;
+        }
+    }
 
-    // ImageWindow win(rgbBuf, width, height);
-    ControlWindow win(name);
-
-    return app->run(win);
+    if (is_scan) {
+        hmwk::CameraScanner cs;
+        cs.printAll();
+        return 0;
+    } else if (is_capture) {
+        argc = 1;
+        auto app =
+            Gtk::Application::create(argc, argv, "cn.hoohan.v4l2.homework");
+        ControlWindow win(devName);
+        return app->run(win);
+    } else {
+        printUsage();
+        return 0;
+    }
 }

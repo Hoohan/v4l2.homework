@@ -48,6 +48,7 @@ void CameraScanner::scanFiles() {
             close(fd);
         }
     }
+    closedir(pdir);
     std::sort(files_.begin(), files_.end());
 }
 
