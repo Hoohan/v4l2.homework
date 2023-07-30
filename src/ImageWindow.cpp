@@ -1,19 +1,16 @@
 #include <unistd.h>
 
 #include <Camera.hpp>
+#include <FormatConversion.hpp>
 #include <ImageWindow.hpp>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 
-#include "gdkmm/general.h"
-#include "gdkmm/pixbuf.h"
-
 namespace hmwk {
 
-ImageWindow::ImageWindow(unsigned char* rgbBuf, unsigned int width,
-                         unsigned int height)
-    : area_(rgbBuf, width, height), width_(width), height_(height) {
+ImageWindow::ImageWindow(void* rawBuf, unsigned int width, unsigned int height)
+    : area_(rawBuf, width, height), width_(width), height_(height) {
     set_title("Image Window");
     set_default_size(width, height);
 
@@ -23,12 +20,17 @@ ImageWindow::ImageWindow(unsigned char* rgbBuf, unsigned int width,
 
 ImageWindow::~ImageWindow() {}
 
-ImageArea::ImageArea(unsigned char* rgbBuf, unsigned int width,
-                     unsigned int height)
-    : rgbBuf_(rgbBuf), width_(width), height_(height) {
+ImageArea::ImageArea(void* rawBuf, unsigned int width, unsigned int height)
+    : rawBuf_(rawBuf), width_(width), height_(height) {
+    // format conversion
+    rgbBuf_ = static_cast<unsigned char*>(
+        calloc(width_ * height_ * 3, sizeof(unsigned char)));
+    yuyv2rgb(static_cast<unsigned char*>(rawBuf_), rgbBuf_, width_, height_);
+
+    // create and set image
     try {
         image_ = Gdk::Pixbuf::create_from_data(
-            rgbBuf, Gdk::Colorspace::COLORSPACE_RGB, false, 8, width, height,
+            rgbBuf_, Gdk::Colorspace::COLORSPACE_RGB, false, 8, width, height,
             width * 3);
     } catch (const Gio::ResourceError& ex) {
         std::cerr << "ResourceError: " << ex.what() << std::endl;
@@ -41,7 +43,7 @@ ImageArea::ImageArea(unsigned char* rgbBuf, unsigned int width,
     }
 }
 
-ImageArea::~ImageArea() {}
+ImageArea::~ImageArea() { free(rgbBuf_); }
 
 bool ImageArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     if (!image_) {
