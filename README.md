@@ -39,7 +39,7 @@ sudo apt install build-essential cmake libgtkmm-3.0-dev
 cmake -S . -B build && cmake --build build 
 ```
 
-注：配置时使用`-DCMAKE_BUILD_TYPE=Release`设置构建方式为Debug模式会同时编译test文件夹（开发过程中编写的测试代码），会导致编译时间增加。
+注：配置时使用`-DCMAKE_BUILD_TYPE=Debug`设置构建方式为Debug模式会同时编译test文件夹（开发过程中编写的测试代码），会导致编译时间增加。
 
 ### 使用方式
 
