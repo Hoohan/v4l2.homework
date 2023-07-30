@@ -13,6 +13,7 @@
 
 #include <CameraScanner.hpp>
 #include <algorithm>
+#include <iostream>
 #include <map>
 
 namespace hmwk {
@@ -107,5 +108,15 @@ void CameraScanner::getDevInfo() {
 }
 
 std::vector<DeviceInfo>& CameraScanner::getList() { return cameras_; }
+
+void CameraScanner::printAll() {
+    for (const auto& device : cameras_) {
+        std::cout << "[" << device.deviceDescription << "] at ["
+                  << device.busInfo << "] is attached to:\n";
+        for (const auto& path : device.devicePaths) {
+            std::cout << "\t" << path << "\n";
+        }
+    }
+}
 
 }  // namespace hmwk

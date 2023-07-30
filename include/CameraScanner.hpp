@@ -17,6 +17,7 @@ public:
     CameraScanner();
     ~CameraScanner();
     std::vector<DeviceInfo>& getList();
+    void printAll();
 
 private:
     void scanFiles();
